@@ -1,0 +1,30 @@
+### Recuperar todas las peliculas
+GET http://localhost:1234/movies
+
+### Recuperar una pelicula por ID
+GET http://localhost:1234/movies/c8a7d63f-3b04-44d3-9d95-8782fd7dcfaf
+
+### Recuperar una pelicula por un genero
+GET http://localhost:1234/movies?genre=Action
+
+### Crear una pelicula con POST
+POST http://localhost:1234/movies
+Content-Type: application/json
+ 
+{
+  "title": "Oppenheimer",
+  "year": 2023,
+  "director": "Christopher Nolan",
+  "duration": 180,
+  "poster": "https://image.tmdb.org/t/p/w1280/8HCoPfguQ3u1QhiunBBJxHSy2K1.jpg",
+  "genre": ["Drama", "History"],
+  "rate": 9.7
+}
+
+### Actualizar una pelicula
+PATCH http://localhost:1234/movies/9fe782ec-0495-4c3b-9a00-e3ceccda1004
+Content-Type: application/json
+
+{
+  "year": 2023
+}

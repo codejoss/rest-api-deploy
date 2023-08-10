@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Rest Movies</title>
+  <style>
+    :root {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000000;
+      color: #292929;
+    }
+    .contenedor {
+      max-width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    article {
+      width: 30%;
+      background-color: #f19900;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      margin: 1.5rem 0;
+    }
+
+      article button {
+        margin-bottom: 20px;
+        border-radius: 5px;
+        width:5rem;
+        height: 2rem;
+      }
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      height: auto;
+    }
+
+    h2 {
+      width: fit-content;
+      text-align: center;
+    }
+  </style>
+  
+  <script type="module">
+    fetch('http://localhost:1234/movies')
+    .then(res => res.json())
+    .then(movies => {
+      const html = movies.map(movie => {
+        return `
+        <div class="contenedor">
+          <article data-id="${movie.id}">
+            <h2>${movie.title}</h2>
+            <img src="${movie.poster}" alt="${movie.title}">
+            <h3>${movie.year}</h3>
+            <button>Eliminar</button>
+          </article>
+        </div>
+        `
+      }).join('')
+      document.querySelector('main').innerHTML = html;
+
+      document.addEventListener('click', e => {
+        if ( e.target.matches('button')) {
+          const article = e.target.closest('article')
+          const id = article.dataset.id
+
+          fetch(`http://localhost:1234/movies/${id}`, {
+            method: 'DELETE'
+          })
+            .then(res => {
+              if (res.ok) {
+                article.remove()
+              }
+            })
+          }
+        })
+      })
+
+  </script>
+</head>
+<body>
+  <main></main>
+</body>
+</html>
